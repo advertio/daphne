@@ -56,6 +56,9 @@ class AccessLogGenerator(object):
         Writes an NCSA-style entry to the log file (some liberty is taken with
         what the entries are for non-HTTP)
         """
+
+        import pdb
+        pdb.set_trace()
         self.stream.write(
             '%s %s %s [%s] "%s" %s %s\n'
             % (
@@ -68,3 +71,4 @@ class AccessLogGenerator(object):
                 length or "-",
             )
         )
+        pdb.set_trace()
