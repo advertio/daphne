@@ -68,6 +68,9 @@ class AccessLogGenerator(object):
         """
 
         self.stream.write(
+            "asdf"
+        )
+        self.stream.write(
             (
                 '{'
                 f'"when": "{date.strftime("%Y-%m-%d %H:%M:%S")}",'
