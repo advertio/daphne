@@ -156,7 +156,13 @@ class CommandLineInterface(object):
                 3: logging.DEBUG,  # Also turns on asyncio debug
             }[args.verbosity],
             format=(
-                '{"when": %(asctime).19s, "message": %(message)s, "thread_id": %(thread)d, severity": %(levelname)s}'
+                '{'
+                '"when": "%(asctime).19s",'
+                '"message": "%(message)s",'
+                '"process_id": "%(process)d",'
+                '"thread_id": "%(thread)d",'
+                '"severity": "%(levelname)s"'
+                '}'
             ),
         )
         # If verbosity is 1 or greater, or they told us explicitly, set up access log
