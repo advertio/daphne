@@ -70,29 +70,18 @@ class AccessLogGenerator(object):
         self.stream.write(
             (
                 '{'
-                '"when": {when},'
-                '"username": {username},'
-                '"httpRequest": {{'
-                '"requestMethod": {request_method},'
-                '"requestUrl": {request_path},'
-                '"protocol": {protocol}},'
-                '"responseSize": {response_size},'
-                '"status": {status},'
-                '"remoteIp": {remote_ip},'
-                '"userAgent": {user_agent}'
-                '}}'
-                '"severity": {severity}'
+                f'"when": {date.strftime("%Y-%m-%d %H:%M:%S")},'
+                f'"username": {user or "-"},'
+                f'"{protocol}Request": {{'
+                f'"requestMethod": {request_method},'
+                f'"requestUrl": {request_path},'
+                f'"protocol": {protocol},'
+                f'"responseSize": {length or "-"},'
+                f'"status": {status or "-"},'
+                f'"remoteIp": {host},'
+                f'"userAgent": {ident or "-"}'
+                f'}}'
+                '"severity": "INFO"'
                 '}'
-            ).format(
-                when=date.strftime("%Y-%m-%d %H:%M:%S"),
-                request_method=request_method,
-                request_path=request_path,
-                procotol=protocol,
-                severity="INFO",
-                remote_ip=host,
-                user_agent=ident or "-",
-                username=user or "-",
-                status=status or "-",
-                response_size=length or "-",
             )
         )
