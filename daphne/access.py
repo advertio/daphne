@@ -84,6 +84,6 @@ class AccessLogGenerator(object):
                 f'"userAgent": "{ident or "-"}"'
                 f'}},'
                 '"severity": "INFO"'
-                '}'
+                '}\n'
             )
         )
