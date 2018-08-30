@@ -14,8 +14,6 @@ class AccessLogGenerator(object):
         """
         Called when an action happens; use it to generate log entries.
         """
-        self.stream.write("asdf")
-
         # HTTP requests
         if protocol == "http" and action == "complete":
             self.write_entry(
