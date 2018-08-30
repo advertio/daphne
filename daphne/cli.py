@@ -157,7 +157,7 @@ class CommandLineInterface(object):
             }[args.verbosity],
             format=(
                 '{'
-                '"when": "%(asctime).19s",'
+                '"timestamp": "%(asctime).19s",'
                 '"message": "%(message)s",'
                 '"process_id": "%(process)d",'
                 '"thread_id": "%(thread)d",'

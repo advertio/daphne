@@ -70,7 +70,7 @@ class AccessLogGenerator(object):
         self.stream.write(
             (
                 '{'
-                f'"when": "{date.strftime("%Y-%m-%d %H:%M:%S")}",'
+                f'"timestamp": "{date.strftime("%Y-%m-%d %H:%M:%S")}",'
                 f'"username": "{user or "-"}",'
                 f'"{protocol}Request": {{'
                 f'"requestMethod": "{request_method}",'
