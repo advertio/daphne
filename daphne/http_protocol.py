@@ -61,7 +61,7 @@ class WebRequest(http.Request):
             logger.error(traceback.format_exc())
             raise
 
-    ### Twisted progress callbacks
+    # Twisted progress callbacks
 
     @inlineCallbacks
     def process(self):
@@ -213,7 +213,7 @@ class WebRequest(http.Request):
         http.Request.finish(self)
         self.server.protocol_disconnected(self)
 
-    ### Server reply callbacks
+    # Server reply callbacks
 
     def handle_reply(self, message):
         """
@@ -260,6 +260,8 @@ class WebRequest(http.Request):
                     # The path is malformed somehow - do our best to log something
                     uri = repr(self.uri)
                 try:
+                    import pdb
+                    pdb.set_trace()
                     self.server.log_action(
                         "http",
                         "complete",
@@ -303,7 +305,7 @@ class WebRequest(http.Request):
                     "Application failed to respond within time limit.",
                 )
 
-    ### Utility functions
+    # Utility functions
 
     def send_disconnect(self):
         """

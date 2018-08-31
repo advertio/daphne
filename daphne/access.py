@@ -24,6 +24,7 @@ class AccessLogGenerator(object):
                 status=details["status"],
                 length=details["size"],
                 protocol=protocol,
+                latency=details["time_taken"],
             )
         # Websocket requests
         elif protocol == "websocket" and action == "connecting":
@@ -60,7 +61,8 @@ class AccessLogGenerator(object):
             )
 
     def write_entry(
-        self, host, date, request_method, request_path, protocol, status=None, length=None, ident=None, user=None
+        self, host, date, request_method, request_path, protocol,
+        latency=None, status=None, length=None, ident=None, user=None,
     ):
         """
         Writes an NCSA-style entry to the log file (some liberty is taken with
@@ -77,6 +79,7 @@ class AccessLogGenerator(object):
                 f'"requestUrl": "{request_path}",'
                 f'"protocol": "{protocol}",'
                 f'"responseSize": "{length or "-"}",'
+                f'"latency": "{(latency * 1000) or "-"}",'
                 f'"status": "{status or "-"}",'
                 f'"remoteIp": "{host}",'
                 f'"userAgent": "{ident or "-"}"'
