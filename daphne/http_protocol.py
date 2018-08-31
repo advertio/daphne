@@ -260,7 +260,7 @@ class WebRequest(http.Request):
                     # The path is malformed somehow - do our best to log something
                     uri = repr(self.uri)
                 try:
-                    logger.info(dir(message))
+                    logger.info(str(message.items())
                     self.server.log_action(
                         "http",
                         "complete",
@@ -365,7 +365,7 @@ class HTTPFactory(http.HTTPFactory):
 
     def __init__(self, server):
         http.HTTPFactory.__init__(self)
-        self.server = server
+        self.server=server
 
     def buildProtocol(self, addr):
         """
@@ -373,8 +373,8 @@ class HTTPFactory(http.HTTPFactory):
         own Request object instead of the default.
         """
         try:
-            protocol = http.HTTPFactory.buildProtocol(self, addr)
-            protocol.requestFactory = WebRequest
+            protocol=http.HTTPFactory.buildProtocol(self, addr)
+            protocol.requestFactory=WebRequest
             return protocol
         except Exception:
             logger.error("Cannot build protocol: %s" % traceback.format_exc())
@@ -388,7 +388,7 @@ class HTTPFactory(http.HTTPFactory):
         using ALPN, so that doesn't go here: anyone wanting websockets will
         negotiate HTTP/1.1 and then do the upgrade dance.
         """
-        baseProtocols = [b"http/1.1"]
+        baseProtocols=[b"http/1.1"]
 
         if http.H2_ENABLED:
             baseProtocols.insert(0, b"h2")
