@@ -260,8 +260,6 @@ class WebRequest(http.Request):
                     # The path is malformed somehow - do our best to log something
                     uri = repr(self.uri)
                 try:
-                    import pdb
-                    pdb.set_trace()
                     self.server.log_action(
                         "http",
                         "complete",
