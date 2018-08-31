@@ -260,7 +260,7 @@ class WebRequest(http.Request):
                     # The path is malformed somehow - do our best to log something
                     uri = repr(self.uri)
                 try:
-                    logger.info(vars(message))
+                    logger.info(dir(message))
                     self.server.log_action(
                         "http",
                         "complete",
