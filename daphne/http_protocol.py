@@ -260,6 +260,7 @@ class WebRequest(http.Request):
                     # The path is malformed somehow - do our best to log something
                     uri = repr(self.uri)
                 try:
+                    request_id_headers = self.responseHeaders.getRawHeaders("Request-Id")
                     self.server.log_action(
                         "http",
                         "complete",
@@ -272,6 +273,7 @@ class WebRequest(http.Request):
                             else None,
                             "time_taken": self.duration(),
                             "size": self.sentLength,
+                            "request_id": request_id_headers[0] if request_id_headers is not None else None,
                         },
                     )
                 except Exception:
