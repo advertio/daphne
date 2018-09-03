@@ -1,4 +1,6 @@
 import datetime
+from multiprocessing import current_process
+from threading import current_thread
 
 
 class AccessLogGenerator(object):
