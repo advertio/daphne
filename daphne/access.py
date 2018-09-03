@@ -72,6 +72,11 @@ class AccessLogGenerator(object):
         what the entries are for non-HTTP)
         """
 
+        if latency is not None:
+            final_latency = "{:.9f}s".format(latency)
+        else:
+            final_latency = "-"
+
         self.stream.write(
             (
                 '{'
@@ -82,7 +87,7 @@ class AccessLogGenerator(object):
                 f'"requestUrl": "{request_path}",'
                 f'"protocol": "{protocol}",'
                 f'"responseSize": "{length or "-"}",'
-                f'"latency": "{(latency + "s") or "-"}",'
+                f'"latency": "{final_latency}",'
                 f'"status": "{status or "-"}",'
                 f'"remoteIp": "{host}",'
                 f'"userAgent": "{ident or "-"}"'
