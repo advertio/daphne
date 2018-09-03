@@ -85,6 +85,8 @@ class AccessLogGenerator(object):
                 f'"remoteIp": "{host}",'
                 f'"userAgent": "{ident or "-"}"'
                 f'}},'
+                f'"thread_id": "{str(current_thread().ident)}",'
+                f'"process_id": "{str(current_process().ident)}",'
                 '"severity": "INFO"'
                 '}\n'
             )
