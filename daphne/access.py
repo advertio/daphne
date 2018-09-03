@@ -82,7 +82,7 @@ class AccessLogGenerator(object):
                 f'"requestUrl": "{request_path}",'
                 f'"protocol": "{protocol}",'
                 f'"responseSize": "{length or "-"}",'
-                f'"latency": "{(latency * 1000) or "-"}",'
+                f'"latency": "{(latency + "s") or "-"}",'
                 f'"status": "{status or "-"}",'
                 f'"remoteIp": "{host}",'
                 f'"userAgent": "{ident or "-"}"'
