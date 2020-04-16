@@ -54,6 +54,7 @@ class Server(object):
         websocket_handshake_timeout=5,
         application_close_timeout=10,
         ready_callable=None,
+        server_name="Daphne",
         # Deprecated and does not work, remove in version 2.2
         ws_protocols=None,
     ):
@@ -77,6 +78,7 @@ class Server(object):
         self.verbosity = verbosity
         self.abort_start = False
         self.ready_callable = ready_callable
+        self.server_name = server_name
         # Check our construction is actually sensible
         if not self.endpoints:
             logger.error("No endpoints. This server will not listen on anything.")
@@ -87,7 +89,7 @@ class Server(object):
         self.connections = {}
         # Make the factory
         self.http_factory = HTTPFactory(self)
-        self.ws_factory = WebSocketFactory(self, server="Daphne")
+        self.ws_factory = WebSocketFactory(self, server=self.server_name)
         self.ws_factory.setProtocolOptions(
             autoPingTimeout=self.ping_timeout,
             allowNullOrigin=True,
@@ -176,7 +178,11 @@ class Server(object):
 
     def protocol_disconnected(self, protocol):
         # Set its disconnected time (the loops will come and clean it up)
-        self.connections[protocol]["disconnected"] = time.time()
+        # Do not set it if it is already set. Overwriting it might
+        # cause it to never be cleaned up.
+        # See https://github.com/django/channels/issues/1181
+        if "disconnected" not in self.connections[protocol]:
+            self.connections[protocol]["disconnected"] = time.time()
 
     ### Internal event/message handling
 
@@ -208,11 +214,32 @@ class Server(object):
         """
         Coroutine that jumps the reply message from asyncio to Twisted
         """
-        # Don't do anything if the connection is closed
-        if self.connections[protocol].get("disconnected", None):
+        # Don't do anything if the connection is closed or does not exist
+        if protocol not in self.connections or self.connections[protocol].get(
+            "disconnected", None
+        ):
             return
+        self.check_headers_type(message)
         # Let the protocol handle it
         protocol.handle_reply(message)
+
+    @staticmethod
+    def check_headers_type(message):
+        if not message["type"] == "http.response.start":
+            return
+        for k, v in message.get("headers", []):
+            if not isinstance(k, bytes):
+                raise ValueError(
+                    "Header name '{}' expected to be `bytes`, but got `{}`".format(
+                        k, type(k)
+                    )
+                )
+            if not isinstance(v, bytes):
+                raise ValueError(
+                    "Header value '{}' expected to be `bytes`, but got `{}`".format(
+                        v, type(v)
+                    )
+                )
 
     ### Utility
 

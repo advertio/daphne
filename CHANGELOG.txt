@@ -1,3 +1,35 @@
+2.3.0 (2019-04-09)
+------------------
+
+* Added support for ASGI v3.
+
+2.2.5 (2019-01-31)
+------------------
+
+* WebSocket handshakes are now affected by the websocket connect timeout, so
+  you can limit them from the command line.
+
+* Server name can now be set using --server-name
+
+
+2.2.4 (2018-12-15)
+------------------
+
+* No longer listens on port 8000 when a file descriptor is provided with --fd
+
+* Fixed a memory leak with WebSockets
+
+
+2.2.3 (2018-11-06)
+------------------
+
+* Enforce that response headers are only bytestrings, rather than allowing
+  unicode strings and coercing them into bytes.
+
+* New command-line options to set proxy header names: --proxy-headers-host and
+  --proxy-headers-port.
+
+
 2.2.2 (2018-08-16)
 ------------------
 
@@ -380,4 +412,4 @@
 
 * http.disconnect messages are now sent
 
-* Request handling speed significantly improved 
+* Request handling speed significantly improved
